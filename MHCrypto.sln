@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHCrypto", "MHCrypto\MHCrypto.csproj", "{C798961D-1571-457D-A8A5-E22C8064EAC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {485185EB-E87D-44F6-9C4B-5751A06350EE}
+	EndGlobalSection
+EndGlobal
