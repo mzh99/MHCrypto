@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHCrypto", "MHCrypto\MHCrypto.csproj", "{C798961D-1571-457D-A8A5-E22C8064EAC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHCrypto.Tests", "MHCrypto.Tests\MHCrypto.Tests.csproj", "{3D8A04F1-14D9-4AF6-8A96-C48C00904AF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C798961D-1571-457D-A8A5-E22C8064EAC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D8A04F1-14D9-4AF6-8A96-C48C00904AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D8A04F1-14D9-4AF6-8A96-C48C00904AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D8A04F1-14D9-4AF6-8A96-C48C00904AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D8A04F1-14D9-4AF6-8A96-C48C00904AF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

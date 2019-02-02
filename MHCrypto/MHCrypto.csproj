@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>OCSS.MHCrypto</PackageId>
+    <Authors>MH</Authors>
+    <Company>OC Software Solutions</Company>
+    <Description>Crypto functions for fun and personal use</Description>
+    <Copyright>OCSS</Copyright>
+    <PackageReleaseNotes>OCSS Crypto</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <RootNamespace>OCSS.MHCrypto</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OCSS.StringUtil.MHString" Version="1.0.1" />
+  </ItemGroup>
 
 </Project>
