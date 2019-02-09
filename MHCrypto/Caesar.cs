@@ -23,7 +23,7 @@ namespace OCSS.MHCrypto {
       /// <summary>Decryption for ASCII string</summary>
       /// <param name="cipherText">cipher text</param>
       /// <param name="shift">number of positions to shift. ex) with 1 as shift A=B</param>
-      /// <returns>string of plain text</returns>
+      /// <returns>string of plain-text</returns>
       public static string DecryptASCII(string cipherText, byte shift) {
          return DecryptASCII(Encoding.ASCII.GetBytes(cipherText), shift);
       }
@@ -31,12 +31,14 @@ namespace OCSS.MHCrypto {
       /// <summary>Decryption for ASCII byte array</summary>
       /// <param name="cipherText">cipher text</param>
       /// <param name="shift">number of positions to shift. ex) with 1 as shift A=B</param>
-      /// <returns>string of plain text</returns>
+      /// <returns>string of plain-text</returns>
       public static string DecryptASCII(byte[] cipherText, byte shift) {
-         if (shift <= 0 || shift >= Utils.NUM_ALPHA)
-            throw new ArgumentException($"shift must be between 1 and {Utils.NUM_ALPHA - 1}");
+         if (shift < 0 || shift >= Utils.NUM_ALPHA)
+            throw new ArgumentException($"shift must be between 0 and {Utils.NUM_ALPHA - 1}");
          if (cipherText == null)
             throw new ArgumentNullException("cipherText");
+         if (shift == 0)   // no shift, return as-is
+            return Encoding.ASCII.GetString(cipherText);
          // copy byte array into work buffer for manipulation
          byte[] buff = new byte[cipherText.Length];
          Buffer.BlockCopy(cipherText, 0, buff, 0, cipherText.Length);
@@ -91,10 +93,12 @@ namespace OCSS.MHCrypto {
       /// <param name="shift">number of positions to shift. ex) with 1 as shift A=B</param>
       /// <returns>string of encrypted data</returns>
       public static string EncryptASCII(byte[] plainText, byte shift) {
-         if (shift <= 0 || shift >= Utils.NUM_ALPHA)
-            throw new ArgumentException($"shift must be between 1 and {Utils.NUM_ALPHA - 1}");
+         if (shift < 0 || shift >= Utils.NUM_ALPHA)
+            throw new ArgumentException($"shift must be between 0 and {Utils.NUM_ALPHA - 1}");
          if (plainText == null)
             throw new ArgumentNullException("plainText");
+         if (shift == 0)   // return as-is for no shift
+            return Encoding.ASCII.GetString(plainText);
          // copy byte array into work buffer for manipulation
          byte[] buff = new byte[plainText.Length];
          Buffer.BlockCopy(plainText, 0, buff, 0, plainText.Length);

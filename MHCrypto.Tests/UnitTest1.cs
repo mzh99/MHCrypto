@@ -10,6 +10,18 @@ namespace MHCrypto.Tests {
    public class CaesarTests {
 
       [TestMethod]
+      [ExpectedException(typeof(ArgumentException))]
+      public void CaesarWithHighShiftThrows() {
+         Caesar.EncryptASCII("test", 26);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentNullException))]
+      public void CaesarWithNullParmThrows() {
+         Caesar.EncryptASCII((string) null, 1);
+      }
+
+      [TestMethod]
       public void CaesarCryptIsSuccessful() {
          const string THE_QBF = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
          const string THE_QBF_SHIFT23 = "QEB NRFZH YOLTK CLU GRJMP LSBO QEB IXWV ALD";
