@@ -1,5 +1,5 @@
 # MHCrypto
-Some Crypto functions and utilities.
+Some basic crypto functions and utilities.
 
 Used initially for the cryptopals crypto challenges at: https://cryptopals.com/
 

@@ -10,6 +10,7 @@
     <PackageReleaseNotes>OCSS Crypto</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RootNamespace>OCSS.MHCrypto</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
