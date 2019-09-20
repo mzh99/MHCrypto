@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 
 namespace OCSS.MHCrypto {
+
+   public enum LetterSelection { FirstLetter, LastLetter }
+
    /// <summary>Implements a homophonic substitution cipher similar to the Beale cipher.</summary>
-   /// <remarks>See: https://en.wikipedia.org/wiki/Book_cipher for more details.</remarks>
+   /// <remarks>
+   /// Note: I added a feature to allow last letter of word instead of always using the first.
+   /// See: https://en.wikipedia.org/wiki/Book_cipher for more details.
+   /// </remarks>
    public static class BookCipher {
 
-      public static string Decrypt(IEnumerable<string> cipherNums, IEnumerable<string> words) {
+      public static string Decrypt(IEnumerable<string> cipherNums, IEnumerable<string> words, LetterSelection letterSel = LetterSelection.FirstLetter) {
          int num = 0;
          var numArray = cipherNums.ToArray();
          int[] nums = new int[numArray.Length];
@@ -19,17 +25,22 @@ namespace OCSS.MHCrypto {
                throw new FormatException($"Cipher number {ndx + 1} has an invalid number ({trimmedNum}).");
             nums[ndx] = num;
          }
-         return Decrypt(nums, words);
+         return Decrypt(nums, words, letterSel);
       }
 
-      public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<string> words) {
-         int cnt = 0;
-         foreach (var wd in words) {
-            if (string.IsNullOrEmpty(wd.Trim()))
-               throw new ArgumentException($"Word {cnt + 1} is null or empty.");
-            cnt++;
+      public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<string> words, LetterSelection letterSel = LetterSelection.FirstLetter) {
+         string[] wdArray = words.ToArray();
+         char[] charList = new char[wdArray.Length];
+         for (int ndx = 0; ndx < wdArray.Length; ndx++) {
+            if (wdArray[ndx] == null)
+               throw new ArgumentException($"Word {ndx + 1} is null.");
+            wdArray[ndx] = wdArray[ndx].Trim();
+            if (wdArray[ndx] == string.Empty)
+               throw new ArgumentException($"Word {ndx + 1} is empty.");
+            int letterNdx = (letterSel == LetterSelection.FirstLetter) ? 0 : wdArray[ndx].Length - 1;
+            charList[ndx] = (wdArray[ndx])[letterNdx];
          }
-         return Decrypt(cipherNums, words.Select(w => (w.Trim()[0])));
+         return Decrypt(cipherNums, charList);
       }
 
       public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<char> letters) {
