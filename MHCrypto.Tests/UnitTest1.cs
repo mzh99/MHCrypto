@@ -126,4 +126,55 @@ namespace MHCrypto.Tests {
 
    }
 
+
+ [TestClass]
+   public class BookCipherTests {
+      private static readonly string[] TestWords = { "four", "score", "and", "seven", "years"};
+
+      [TestMethod]
+      public void BookCipherDecryptBasicIsSuccessful() {
+         var result = BookCipher.Decrypt(new int[] { 1, 2, 3, 4 }, TestWords);
+         Assert.AreEqual("fsas", result, "simple cipher should be fsas");
+      }
+
+      [TestMethod]
+      public void BookCipherDecryptWithIntAsStringIsSuccessful() {
+         var result = BookCipher.Decrypt(new string[] { "1", "2", "3", "4" }, TestWords);
+         Assert.AreEqual("fsas", result, "IntAsString should be fsas");
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(FormatException))]
+      public void BookCipherWithBadIntFormatStringThrows() {
+         BookCipher.Decrypt(new string[] { "1", "2", "3", "abc" }, TestWords);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentOutOfRangeException))]
+      public void BookCipherWithWordIndexOutOfRangeThrows() {
+         BookCipher.Decrypt(new int[] { 1, 2, 8 }, TestWords);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentException))]
+      public void BookCipherWithEmptyWordThrows() {
+         BookCipher.Decrypt(new int[] { 1, 2 }, new string[] { "1", "" });
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentOutOfRangeException))]
+      public void BookCipherWithZeroWordIndexThrows() {
+         BookCipher.Decrypt(new int[] { 1, 2, 0 }, TestWords);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentOutOfRangeException))]
+      public void BookCipherWithNegativeWordIndexThrows() {
+         BookCipher.Decrypt(new int[] { 1, 2, -1 }, TestWords);
+      }
+
+
+
+   }
+
 }
