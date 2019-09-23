@@ -11,6 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <RootNamespace>OCSS.MHCrypto</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
