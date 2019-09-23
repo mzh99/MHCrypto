@@ -129,7 +129,15 @@ namespace MHCrypto.Tests {
 
  [TestClass]
    public class BookCipherTests {
-      private static readonly string[] TestWords = { "four", "score", "and", "seven", "years"};
+      private static readonly string[] TestWords = { "four", "score", "and", "seven", "years" };
+      private static readonly string[] Book1 = { "family", "eats", "sweet", "treats" };
+      private static readonly string[] BookWithEmptyWord = { "family", "", "sweet", "treats" };
+      private static readonly string[] BookWithNullWord = { "family", null, "sweet", "treats" };
+      private static readonly string[] BookWithAllLetters = {
+         "sam", "pat", "hop", "in", "not", "xray", "qat", "under", "at", "rap", "top", "zip",
+         "fop", "lost", "end", "down", "gray", "yell", "beta", "mop", "wind", "vow", "jump", "or", "can", "kin"
+      };
+      // var result = BookCipher.Encrypt("sphinx quartz fledgy bmw v jock", Book1, ',', LetterSelection.FirstLetter);
 
       [TestMethod]
       public void BookCipherDecryptBasicIsSuccessful() {
@@ -185,8 +193,35 @@ namespace MHCrypto.Tests {
          BookCipher.Decrypt(new int[] { 1, 2, -1 }, TestWords, LetterSelection.FirstLetter);
       }
 
+      [TestMethod]
+      public void BookCipherEncryptBasicIsSuccessful() {
+         var result = BookCipher.Encrypt("fest", Book1, ',', LetterSelection.FirstLetter);
+         Assert.AreEqual("1,2,3,4", result, "encrypt be 1,2,3,4");
+      }
 
+      [TestMethod]
+      public void BookCipherEncryptWithAlphabetIsSuccessful() {
+         var result = BookCipher.Encrypt("sphinx quartz fledgy bmw v jock", BookWithAllLetters, ',', LetterSelection.FirstLetter);
+         Assert.AreEqual("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26", result, "encrypt be 1..26");
+      }
 
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentOutOfRangeException))]
+      public void BookCipherEncryptWithMissingLetterThrows() {
+         BookCipher.Encrypt("fart", Book1, ',', LetterSelection.FirstLetter);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentException))]
+      public void BookCipherEncryptWithEmptyWordThrows() {
+         BookCipher.Encrypt("fest", BookWithEmptyWord, ',', LetterSelection.FirstLetter);
+      }
+
+      [TestMethod]
+      [ExpectedException(typeof(ArgumentException))]
+      public void BookCipherEncryptWithNullWordThrows() {
+         BookCipher.Encrypt("fest", BookWithNullWord, ',', LetterSelection.FirstLetter);
+      }
    }
 
 }
