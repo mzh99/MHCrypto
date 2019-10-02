@@ -141,56 +141,62 @@ namespace MHCrypto.Tests {
 
       [TestMethod]
       public void BookCipherDecryptBasicIsSuccessful() {
-         var result = BookCipher.Decrypt(new int[] { 1, 2, 3, 4 }, TestWords, LetterSelection.FirstLetter);
+         var result = BookCipher.Decrypt(new int[] { 1, 2, 3, 4 }, TestWords, LetterSelection.FirstLetter, true);
          Assert.AreEqual("fsas", result, "cipher should be fsas");
       }
 
       [TestMethod]
       public void BookCipherDecryptBasicLastLetterIsSuccessful() {
-         var result = BookCipher.Decrypt(new int[] { 1, 2, 3, 4 }, TestWords, LetterSelection.LastLetter);
+         var result = BookCipher.Decrypt(new int[] { 1, 2, 3, 4 }, TestWords, LetterSelection.LastLetter, true);
          Assert.AreEqual("redn", result, "cipher last letter should be redn");
       }
 
       [TestMethod]
       public void BookCipherDecryptWithIntAsStringIsSuccessful() {
-         var result = BookCipher.Decrypt(new string[] { "1", "2", "3", "4" }, TestWords, LetterSelection.FirstLetter);
+         var result = BookCipher.Decrypt(new string[] { "1", "2", "3", "4" }, TestWords, LetterSelection.FirstLetter, true);
          Assert.AreEqual("fsas", result, "IntAsString should be fsas");
       }
 
       [TestMethod]
       public void BookCipherDecryptWithIntAsStringLastLetterIsSuccessful() {
-         var result = BookCipher.Decrypt(new string[] { "1", "2", "3", "4" }, TestWords, LetterSelection.LastLetter);
+         var result = BookCipher.Decrypt(new string[] { "1", "2", "3", "4" }, TestWords, LetterSelection.LastLetter, true);
          Assert.AreEqual("redn", result, "IntAsString should be redn");
       }
 
       [TestMethod]
       [ExpectedException(typeof(FormatException))]
       public void BookCipherWithBadIntFormatStringThrows() {
-         BookCipher.Decrypt(new string[] { "1", "2", "3", "abc" }, TestWords, LetterSelection.FirstLetter);
+         BookCipher.Decrypt(new string[] { "1", "2", "3", "abc" }, TestWords, LetterSelection.FirstLetter, true);
       }
 
       [TestMethod]
       [ExpectedException(typeof(ArgumentOutOfRangeException))]
       public void BookCipherWithWordIndexOutOfRangeThrows() {
-         BookCipher.Decrypt(new int[] { 1, 2, 8 }, TestWords, LetterSelection.FirstLetter);
+         BookCipher.Decrypt(new int[] { 1, 2, 8 }, TestWords, LetterSelection.FirstLetter, true);
+      }
+
+      [TestMethod]
+      public void BookCipherWithWordIndexOutOfRangeAndNoExceptionsSetWorks() {
+         var result = BookCipher.Decrypt(new int[] { 1, 2, 8 }, TestWords, LetterSelection.FirstLetter, false);
+         Assert.AreEqual("fs?", result, "cipher should be fs?");
       }
 
       [TestMethod]
       [ExpectedException(typeof(ArgumentException))]
       public void BookCipherWithEmptyWordThrows() {
-         BookCipher.Decrypt(new int[] { 1, 2 }, new string[] { "1", "" }, LetterSelection.FirstLetter);
+         BookCipher.Decrypt(new int[] { 1, 2 }, new string[] { "1", "" }, LetterSelection.FirstLetter, true);
       }
 
       [TestMethod]
       [ExpectedException(typeof(ArgumentOutOfRangeException))]
       public void BookCipherWithZeroWordIndexThrows() {
-         BookCipher.Decrypt(new int[] { 1, 2, 0 }, TestWords, LetterSelection.FirstLetter);
+         BookCipher.Decrypt(new int[] { 1, 2, 0 }, TestWords, LetterSelection.FirstLetter, true);
       }
 
       [TestMethod]
       [ExpectedException(typeof(ArgumentOutOfRangeException))]
       public void BookCipherWithNegativeWordIndexThrows() {
-         BookCipher.Decrypt(new int[] { 1, 2, -1 }, TestWords, LetterSelection.FirstLetter);
+         BookCipher.Decrypt(new int[] { 1, 2, -1 }, TestWords, LetterSelection.FirstLetter, true);
       }
 
       [TestMethod]
