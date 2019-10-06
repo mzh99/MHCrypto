@@ -80,8 +80,10 @@ namespace OCSS.MHCrypto {
                      sb.Append('?');
                      break;
                   case OutOfBoundsIndex.WrapUsingModulo:
-                     int newIndex = (num % letterLookup.Length) - 1;
-                     sb.Append(letterLookup[newIndex]);
+                     int newIndex = (num % letterLookup.Length);
+                     if (newIndex == 0)
+                        newIndex = letterLookup.Length;
+                     sb.Append(letterLookup[newIndex - 1]);
                      break;
                }
             }

@@ -188,6 +188,12 @@ namespace MHCrypto.Tests {
       }
 
       [TestMethod]
+      public void BookCipherWithWordIndexOutOfRangeAndWrapOnWithModuloZeroWorks() {
+         var result = BookCipher.Decrypt(new int[] { 1, 2, 10, 4, 5 }, TestWords, LetterSelection.FirstLetter, OutOfBoundsIndex.WrapUsingModulo);
+         Assert.AreEqual("fsysy", result, "cipher should be fsysy");
+      }
+
+      [TestMethod]
       [ExpectedException(typeof(ArgumentException))]
       public void BookCipherWithEmptyWordThrows() {
          BookCipher.Decrypt(new int[] { 1, 2 }, new string[] { "1", "" }, LetterSelection.FirstLetter, OutOfBoundsIndex.ThrowException);
