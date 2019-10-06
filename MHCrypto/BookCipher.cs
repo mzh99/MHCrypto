@@ -7,6 +7,8 @@ namespace OCSS.MHCrypto {
 
    public enum LetterSelection { FirstLetter, LastLetter }
 
+   public enum OutOfBoundsIndex { ThrowException, ReturnQMark, WrapUsingModulo }
+
    /// <summary>Implements a homophonic substitution cipher similar to the Beale cipher.</summary>
    /// <remarks>
    /// Note: I added a feature to allow last letter of word instead of always using the first.
@@ -21,7 +23,7 @@ namespace OCSS.MHCrypto {
       /// <param name="throwOnOutOfRange">a flag to raise an exception if a number exceeds the range of key text. If false, a question-mark will be returned.</param>
       /// <returns>a string representation of decrypted text without any punctuation or spacing</returns>
       /// <remarks>A zero or negative number will still raise an exception regardless of the throwOnOutOfRange value.</remarks>
-      public static string Decrypt(IEnumerable<string> cipherNums, IEnumerable<string> keyWords, LetterSelection letterSel = LetterSelection.FirstLetter, bool throwOnOutOfRange = true) {
+      public static string Decrypt(IEnumerable<string> cipherNums, IEnumerable<string> keyWords, LetterSelection letterSel = LetterSelection.FirstLetter, OutOfBoundsIndex outOfRangeHandler = OutOfBoundsIndex.ThrowException) {
          int num = 0;
          var numArray = cipherNums.ToArray();
          int[] nums = new int[numArray.Length];
@@ -32,7 +34,7 @@ namespace OCSS.MHCrypto {
                throw new FormatException($"Cipher number {ndx + 1} has an invalid number ({trimmedNum}).");
             nums[ndx] = num;
          }
-         return Decrypt(nums, keyWords, letterSel, throwOnOutOfRange);
+         return Decrypt(nums, keyWords, letterSel, outOfRangeHandler);
       }
 
       /// <summary>Decrypt a Book Cipher using a list of integer cipher numbers and a set of key words.</summary>
@@ -42,7 +44,7 @@ namespace OCSS.MHCrypto {
       /// <param name="throwOnOutOfRange">a flag to raise an exception if a number exceeds the range of key text. If false, a question-mark will be returned.</param>
       /// <returns>a string representation of decrypted text without any punctuation or spacing</returns>
       /// <remarks>A zero or negative number will still raise an exception regardless of the throwOnOutOfRange value.</remarks>
-      public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<string> keyWords, LetterSelection letterSel = LetterSelection.FirstLetter, bool throwOnOutOfRange = true) {
+      public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<string> keyWords, LetterSelection letterSel = LetterSelection.FirstLetter, OutOfBoundsIndex outOfRangeHandler = OutOfBoundsIndex.ThrowException) {
          string[] wdArray = keyWords.ToArray();
          char[] charList = new char[wdArray.Length];
          for (int ndx = 0; ndx < wdArray.Length; ndx++) {
@@ -54,16 +56,16 @@ namespace OCSS.MHCrypto {
             int letterNdx = (letterSel == LetterSelection.FirstLetter) ? 0 : wdArray[ndx].Length - 1;
             charList[ndx] = (wdArray[ndx])[letterNdx];
          }
-         return Decrypt(cipherNums, charList, throwOnOutOfRange);
+         return Decrypt(cipherNums, charList, outOfRangeHandler);
       }
 
       /// <summary>/// <summary>Decrypt a Book Cipher using a list of integer cipher numbers and a list of characters used to encrypt.</summary>
       /// <param name="cipherNums">an ordered list of 1-based cipher numbers (word indexes)</param>
       /// <param name="letters">a list of characters used to encrypt the text.</param>
-      /// <param name="throwOnOutOfRange">a flag to raise an exception if a number exceeds the range of key text. If false, a question-mark will be returned.</param>
+      /// <param name="outOfRangeHandler">how to react to an out of range index number exceeding the range of key text. If false, a question-mark will be returned.</param>
       /// <returns>a string representation of decrypted text without any punctuation or spacing</returns>
       /// <remarks>A zero or negative number will still raise an exception regardless of the throwOnOutOfRange value.</remarks>
-      public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<char> letters, bool throwOnOutOfRange = true) {
+      public static string Decrypt(IEnumerable<int> cipherNums, IEnumerable<char> letters, OutOfBoundsIndex outOfRangeHandler = OutOfBoundsIndex.ThrowException) {
          var letterLookup = letters.ToArray();
          int cnt = 0;
          StringBuilder sb = new StringBuilder();
@@ -71,9 +73,17 @@ namespace OCSS.MHCrypto {
             if (num <= 0)
                throw new ArgumentOutOfRangeException($"Entry {cnt + 1} has a number ({num}) less than or equal to zero.");
             if (num > letterLookup.Length) {
-               if (throwOnOutOfRange)
-                  throw new ArgumentOutOfRangeException($"Entry {cnt + 1} has a number ({num}) exceeding word count in key ({letterLookup.Length})");
-               sb.Append('?');
+               switch (outOfRangeHandler) {
+                  case OutOfBoundsIndex.ThrowException:
+                     throw new ArgumentOutOfRangeException($"Entry {cnt + 1} has a number ({num}) exceeding word count in key ({letterLookup.Length})");
+                  case OutOfBoundsIndex.ReturnQMark:
+                     sb.Append('?');
+                     break;
+                  case OutOfBoundsIndex.WrapUsingModulo:
+                     int newIndex = (num % letterLookup.Length) - 1;
+                     sb.Append(letterLookup[newIndex]);
+                     break;
+               }
             }
             else {
                sb.Append(letterLookup[num - 1]);
